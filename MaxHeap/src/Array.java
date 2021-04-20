@@ -1,4 +1,4 @@
-import java.util.Objects;
+import org.omg.CORBA.Object;
 
 public class Array<E> {
 
@@ -20,6 +20,15 @@ public class Array<E> {
      */
     public Array(){
         this(10);
+    }
+
+    public Array(E[] arr){
+        // 强制类型转换
+        data = (E[])new Object[arr.length];
+        for (int i = 0; i < arr.length; i ++){
+            data[i] = arr[i];
+        }
+        size = arr.length;
     }
 
     /**
@@ -73,7 +82,7 @@ public class Array<E> {
             resize(2 * data.length);
         }
         // 将指定位置和该位置后面的元素向后移一位，为index腾出空间
-        for(int i = size - 1; i>= index; i--){
+        for(int i = size - 1; i >= index; i --){
             data[i+1] = data[i];
         }
         data[index] = e;
@@ -205,6 +214,21 @@ public class Array<E> {
         for(int i = 0; i < size; i++)
             newData[i] = data[i];
         data = newData;
+    }
+
+    /**
+     * 交换两个元素
+     * @param i i
+     * @param j j
+     */
+    public void swap(int i, int j){
+
+        if(i < 0 || i >= size || j < 0 || j >= size)
+            throw new IllegalArgumentException("Index is illegal.");
+
+        E t = data[i];
+        data[i] = data[j];
+        data[j] = t;
     }
 
 }
